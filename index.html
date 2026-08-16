@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Happy Birthday, Princess 👑💙</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=DM+Serif+Display:ital@0;1&family=Dancing+Script:wght@500;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Ambient floating hearts (blue theme) -->
+<div class="hearts-bg" id="heartsBg"></div>
+
+<!-- Cursor Glow -->
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<!-- Floating Stickers Layer -->
+<div class="sticker-layer" id="stickerLayer">
+  <span class="sticker" data-msg="Okay pookie, you found me. 😂" style="--x:6%; --y:18%;">👑</span>
+  <span class="sticker" data-msg="Hehe, hi. 🥹" style="--x:88%; --y:12%;">🧸</span>
+  <span class="sticker" data-msg="You have good taste in secrets. ✨" style="--x:10%; --y:70%;">🎀</span>
+  <span class="sticker" data-msg="Found another one. 💗" style="--x:92%; --y:65%;">💗</span>
+  <span class="sticker" data-msg="Some things are meant to be discovered." style="--x:50%; --y:8%;">✨</span>
+  <span class="sticker" data-msg="Just a little softness for you. 🌸" style="--x:15%; --y:40%;">🌸</span>
+  <span class="sticker" data-msg="I love that you found this. 💙" style="--x:85%; --y:38%;">🫶</span>
+</div>
+
+<!-- Music Player -->
+<div class="music-player" id="musicPlayer">
+  <button class="music-toggle" id="musicToggle" aria-label="Open music player">
+    <i class="fa-solid fa-music"></i>
+    <span class="eq" id="eqMini"><i></i><i></i><i></i></span>
+  </button>
+  <div class="music-panel" id="musicPanel">
+    <div class="vinyl" id="vinyl"><div class="vinyl-hole"></div></div>
+    <div class="music-info">
+      <p class="music-title" id="musicTitle">Our songs</p>
+      <p class="music-track-name" id="trackName">Add music1.mp3</p>
+      <div class="music-progress" id="musicProgressWrap">
+        <div class="music-progress-fill" id="musicProgressFill"></div>
+      </div>
+    </div>
+    <div class="music-controls">
+      <button id="prevTrack" aria-label="Previous song"><i class="fa-solid fa-backward-step"></i></button>
+      <button id="playPause" aria-label="Play or pause"><i class="fa-solid fa-play"></i></button>
+      <button id="nextTrack" aria-label="Next song"><i class="fa-solid fa-forward-step"></i></button>
+    </div>
+    <div class="music-eq" id="musicEq"><i></i><i></i><i></i><i></i><i></i></div>
+  </div>
+  <audio id="audio" preload="none"></audio>
+</div>
+
+<!-- CHAPTER 00 — SECRET LOADING -->
+<section class="chapter loading-screen" id="loading">
+  <div class="stars-bg"></div>
+  <div class="loading-content">
+    <p class="loading-line" id="loadLine1">Preparing something special...</p>
+    <p class="loading-line hidden" id="loadLine2">for my favourite person...</p>
+    <p class="loading-crown hidden" id="loadLine3">👑</p>
+    <div class="loading-bar-track">
+      <div class="loading-bar-fill" id="loadingBar"></div>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN EXPERIENCE -->
+<main id="mainExperience" class="hidden">
+
+  <!-- Progress indicator -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- CHAPTER 01 — SOMEONE SPECIAL (landing page) -->
+  <section class="chapter dark-world" id="chapter01">
+    <div class="stars-bg"></div>
+    <div class="chapter-inner landing-grid">
+      <div class="landing-text">
+        <p class="reveal-line">There's someone...</p>
+        <p class="reveal-line">who makes ordinary days feel different.</p>
+        <p class="reveal-line">Someone who can be cute...</p>
+        <p class="reveal-line">...annoying...</p>
+        <p class="reveal-line">...dramatic...</p>
+        <p class="reveal-line">...and somehow still be my favourite person. 💙</p>
+        <h1 class="reveal-name" id="revealName">PRINCESS 👑💙</h1>
+      </div>
+
+      <!-- 🔶 CHANGE HERE: this is the photo on the right side of the landing page.
+           It currently shows photo4 — pick which photo (1-6) shows here by
+           editing `landingPhotoNumber` near the top of script.js -->
+      <div class="landing-photo-wrap" id="landingPhotoWrap">
+        <img id="landingPhoto" class="landing-photo" alt="Us">
+      </div>
+    </div>
+  </section>
+
+  <!-- CHAPTER 02 — BIRTHDAY PORTAL -->
+  <section class="chapter dark-world portal-section" id="chapter02">
+    <div class="portal-glow"></div>
+    <div class="chapter-inner center-text">
+      <p class="portal-text">Ready to enter your birthday universe?</p>
+      <button class="portal-btn" id="enterBtn">
+        <span>ENTER MY WORLD</span> <i class="fa-solid fa-wand-magic-sparkles"></i>
+      </button>
+    </div>
+  </section>
+
+  <!-- CHAPTER 03 — POOKIE TEST -->
+  <section class="chapter light-world" id="chapter03">
+    <div class="chapter-inner">
+      <p class="chapter-eyebrow">एक बहुत ज़रूरी टेस्ट</p>
+      <h2 class="chapter-title">पूकी टेस्ट 💌</h2>
+      <div class="quiz-wrap" id="quizWrap">
+        <div class="quiz-card" data-q="0">
+          <p class="quiz-question">बड़ा पूकी कौन है?</p>
+          <div class="quiz-options">
+            <button class="quiz-btn" data-resp="सही जवाब। मुझे पता था तुम समझदारी से चुनोगी। 😌💙">मैं</button>
+            <button class="quiz-btn" data-resp="ज़ाहिर सी बात है। कोई सवाल नहीं। 🥹👑">तुम</button>
+          </div>
+          <p class="quiz-response"></p>
+        </div>
+        <div class="quiz-card hidden" data-q="1">
+          <p class="quiz-question">ज़्यादा ड्रामा कौन करता है?</p>
+          <div class="quiz-options">
+            <button class="quiz-btn" data-resp="इस पर बहस हो सकती है। बाद में बात करते हैं। 😂">मैं</button>
+            <button class="quiz-btn" data-resp="दिलचस्प जवाब... इस पर बात करनी पड़ेगी। 😂">तुम</button>
+          </div>
+          <p class="quiz-response"></p>
+        </div>
+        <div class="quiz-card hidden" data-q="2">
+          <p class="quiz-question">जब बिल्कुल भी ठीक नहीं होते, तब भी "मैं ठीक हूँ" कौन बोलता है? 😂</p>
+          <div class="quiz-options">
+            <button class="quiz-btn" data-resp="इस सवाल का जवाब नहीं दूँगा। 🙈">मैं</button>
+            <button class="quiz-btn" data-resp="पकड़ा गया। हर बार यही होता है। 👑😌">तुम</button>
+          </div>
+          <p class="quiz-response"></p>
+        </div>
+        <button class="continue-btn hidden" id="quizContinue">आगे बढ़ें <i class="fa-solid fa-arrow-right"></i></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHAPTER 04 — OUR UNIVERSE -->
+  <section class="chapter dark-world universe-section" id="chapter04">
+    <canvas id="starCanvas"></canvas>
+    <svg id="heartConstellation" viewBox="0 0 300 260" class="heart-constellation"></svg>
+    <div class="chapter-inner center-text">
+      <p class="reveal-line">Out of billions of people...</p>
+      <p class="reveal-line">I somehow found you.</p>
+      <p class="reveal-line">And honestly...</p>
+      <p class="reveal-line">that's one of my favourite things about life.</p>
+    </div>
+  </section>
+
+  <!-- CHAPTER 05 — MEMORY GALLERY + LOVE MATCH GAME -->
+  <section class="chapter light-world gallery-section" id="chapter05">
+    <div class="chapter-inner">
+      <p class="chapter-eyebrow">chapter five</p>
+      <h2 class="chapter-title">Our Memories 📸</h2>
+      <p class="game-instruction" id="gameInstruction">एक जैसी फ़ोटो को टच करके लाइन से जोड़ो 💙</p>
+
+      <div class="match-game" id="matchGame">
+        <svg class="match-lines" id="matchLines"></svg>
+        <div class="match-col" id="matchLeft"></div>
+        <div class="match-col" id="matchRight"></div>
+      </div>
+
+      <div class="love-meter-wrap hidden" id="loveMeterWrap">
+        <p class="love-meter-label">Love Percentage 💗</p>
+        <div class="love-meter-track">
+          <div class="love-meter-fill" id="loveMeterFill"></div>
+        </div>
+        <p class="love-meter-percent" id="loveMeterPercent">0%</p>
+      </div>
+
+      <div class="love-complete hidden" id="loveComplete">
+        <p class="love-complete-percent">100%</p>
+        <p class="love-complete-text">यह हमेशा 100% ही रहेगा, बिल्कुल तुम्हारी तरह 💙</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fullscreen photo viewer -->
+  <div class="photo-viewer hidden" id="photoViewer">
+    <button class="viewer-close" id="viewerClose"><i class="fa-solid fa-xmark"></i></button>
+    <button class="viewer-nav viewer-prev" id="viewerPrev"><i class="fa-solid fa-chevron-left"></i></button>
+    <img id="viewerImg" src="" alt="Memory photo">
+    <button class="viewer-nav viewer-next" id="viewerNext"><i class="fa-solid fa-chevron-right"></i></button>
+  </div>
+
+  <!-- CHAPTER 07 — THE LETTER -->
+  <section class="chapter light-world letter-section" id="chapter07">
+    <div class="chapter-inner center-text">
+      <p class="chapter-eyebrow">chapter seven</p>
+      <h2 class="chapter-title">A Letter For You</h2>
+      <div class="envelope-wrap" id="envelopeWrap">
+        <div class="envelope" id="envelope">
+          <div class="envelope-flap"></div>
+          <div class="envelope-body"></div>
+          <div class="wax-seal">👑</div>
+        </div>
+        <p class="envelope-hint" id="envelopeHint">Open this.</p>
+      </div>
+      <div class="letter-paper hidden" id="letterPaper">
+        <p id="letterText" class="letter-text"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHAPTER 08 — MUSIC ROOM -->
+  <section class="chapter dark-world" id="chapter08">
+    <div class="stars-bg"></div>
+    <div class="chapter-inner center-text">
+      <p class="chapter-eyebrow">chapter eight</p>
+      <h2 class="chapter-title light-title">Our Little Music Room 🎶</h2>
+      <p class="music-room-sub">Our songs...</p>
+      <div class="big-vinyl" id="bigVinyl"><div class="vinyl-hole"></div></div>
+      <p class="music-room-track" id="musicRoomTrack">Add music1.mp3, music2.mp3, music3.mp3</p>
+      <button class="portal-btn small" id="musicRoomPlay"><span>Play</span> <i class="fa-solid fa-play"></i></button>
+    </div>
+  </section>
+
+  <!-- CHAPTER 09 — SECRET VAULT -->
+  <section class="chapter dark-world vault-section" id="chapter09">
+    <div class="stars-bg"></div>
+    <div class="chapter-inner center-text">
+      <p class="reveal-line">There's one more thing...</p>
+      <div class="vault" id="vault">
+        <i class="fa-solid fa-lock" id="vaultIcon"></i>
+      </div>
+      <button class="portal-btn small" id="unlockBtn"><span>Unlock it</span> <i class="fa-solid fa-lock-open"></i></button>
+      <div class="vault-surprise hidden" id="vaultSurprise">
+        <p>Every day I get to know you feels like a gift I didn't know I was allowed to have.</p>
+        <p class="vault-sub">Happy birthday, my Princess. 👑</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHAPTER 10 — BIRTHDAY WISH -->
+  <section class="chapter dark-world wish-section" id="chapter10">
+    <div class="stars-bg dense"></div>
+    <div class="glow-heart"></div>
+    <div class="chapter-inner center-text">
+      <p class="reveal-line">Today isn't just about celebrating your birthday...</p>
+      <p class="reveal-line">It's about celebrating the person you are.</p>
+      <p class="reveal-line">May you always have reasons to smile.</p>
+      <p class="reveal-line">May your dreams find their way to you.</p>
+      <p class="reveal-line">May life be gentle with your heart.</p>
+      <p class="reveal-line">And may you always remember...</p>
+      <p class="reveal-line emphasis">You are deeply loved. 💙</p>
+      <h2 class="wish-title">HAPPY BIRTHDAY, PRINCESS 👑💙</h2>
+    </div>
+  </section>
+
+  <!-- CHAPTER 11 — FOREVER ENDING -->
+  <section class="chapter dark-world final-section" id="chapter11">
+    <canvas id="fireworksCanvas"></canvas>
+    <div class="stars-bg"></div>
+    <div class="chapter-inner center-text">
+      <h2 class="final-title">Happy Birthday, My Princess 💙</h2>
+      <p class="final-sub">Thank you for being you.</p>
+      <p class="final-credit">Made with all my heart 💙<br>by Nikhil</p>
+      <button class="replay-btn" id="replayBtn"><i class="fa-solid fa-arrow-rotate-left"></i> Watch it again</button>
+      <div class="idle-message hidden" id="idleMessage">
+        <p>One last thing...</p>
+        <p>No matter how many birthdays come and go...</p>
+        <p>I'll always be grateful that I get to know you. 💙</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
