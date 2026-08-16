@@ -36,7 +36,7 @@ const firebaseConfig = {
   measurementId: "G-DE9TDGCHYD"
 };
 
-// Initialize Firebase (Using v8 Compat CDN syntax that we have in index.html)
+// Initialize Firebase
 let database = null;
 try {
   if (!firebase.apps.length) {
@@ -87,7 +87,7 @@ function runLoadingSequence(){
 ===================================================== */
 function initExperience(){
   initLandingPhoto();
-  initWishesDashboard(); // New Dashboard Init
+  initWishesDashboard(); // Dashboard Init
   initScrollReveals();
   initScrollProgress();
   initCursorGlow();
@@ -107,7 +107,7 @@ function initExperience(){
 
 
 /* =====================================================
-   NEW: WISHES DASHBOARD & MODAL
+   WISHES DASHBOARD & MODAL (FIXED)
 ===================================================== */
 function initWishesDashboard() {
   const modal = document.getElementById('wishModal');
@@ -189,36 +189,20 @@ function initWishesDashboard() {
           track.appendChild(item);
         });
 
-        // Setup the continuous scroll animation if there are wishes
-        startScrollAnimation();
+        // Nayi wish aane par auto scroll down hoga, jisse sabse nayi wish dikhe
+        setTimeout(() => {
+          displayArea.scrollTo({
+            top: displayArea.scrollHeight,
+            behavior: 'smooth'
+          });
+        }, 150);
+
       } else {
         track.innerHTML = "<p class='loading-wishes'>Be the first to send a wish! ✨</p>";
       }
     });
   } else {
     track.innerHTML = "<p class='loading-wishes' style='color:red;'>Firebase setup required to load wishes.</p>";
-  }
-
-  let scrollInterval;
-  function startScrollAnimation() {
-    clearInterval(scrollInterval);
-    let offset = 0;
-    const trackHeight = track.scrollHeight;
-    const areaHeight = displayArea.clientHeight;
-
-    // Reset position
-    track.style.bottom = 'auto';
-    track.style.top = `${areaHeight}px`;
-
-    scrollInterval = setInterval(() => {
-      offset -= 0.5; // Scroll speed
-      
-      // If it has scrolled completely out of view at the top
-      if (Math.abs(offset) > trackHeight) {
-        offset = areaHeight; // Reset to start from bottom again
-      }
-      track.style.transform = `translateY(${offset}px)`;
-    }, 20); // 50fps
   }
 }
 
@@ -586,7 +570,6 @@ function buildMatchGame(photos){
       gsap.fromTo(completeBlock, { opacity: 0, y: 20, scale: .9 }, { opacity: 1, y: 0, scale: 1, duration: .8, ease: 'back.out(1.4)' });
 
       if (window.__musicControls) {
-        // Automatically switch to Music 2 and play in loop
         const m2Index = availableTracks.findIndex(t => t.name.includes('music2'));
         if (m2Index !== -1) window.__musicControls.loadTrack(m2Index);
         window.__musicControls.play();
@@ -728,7 +711,6 @@ function typewrite(el, text){
 /* =====================================================
    13. MUSIC PLAYER (floating widget)
 ===================================================== */
-// Smart Path Checking (checks both assets/ and assets/music/)
 const playlist = [
   { src: 'assets/music1.mp3', fallback: 'assets/music/music1.mp3', name: 'music1.mp3' },
   { src: 'assets/music2.mp3', fallback: 'assets/music/music2.mp3', name: 'music2.mp3' }
@@ -739,7 +721,7 @@ let audioUnlocked = false;
 
 function initMusicPlayer(){
   const audio = document.getElementById('audio');
-  audio.loop = true; // Music hamesha loop mein chalega
+  audio.loop = true; 
   
   const toggle = document.getElementById('musicToggle');
   const panel = document.getElementById('musicPanel');
@@ -753,7 +735,6 @@ function initMusicPlayer(){
   const eqMini = document.getElementById('eqMini');
   const musicEq = document.getElementById('musicEq');
 
-  // Load Tracks & detect correct path
   let checked = 0;
   playlist.forEach((t) => {
     let probe = document.createElement('audio');
@@ -783,7 +764,7 @@ function initMusicPlayer(){
   function finalizeTracks(){
     availableTracks.sort((a, b) => a.name.localeCompare(b.name));
     if (availableTracks.length){
-      loadTrack(0); // Load music 1
+      loadTrack(0); 
     } else {
       trackName.textContent = 'Music files not found';
     }
@@ -837,7 +818,6 @@ function initMusicPlayer(){
 
   window.__musicControls = { play, pause, audio, loadTrack };
 
-  // Super safe auto-play trigger on FIRST click or touch only
   function tryUnlockAudio() {
     if (audioUnlocked) return;
     if (availableTracks.length && window.__musicControls) {
@@ -848,9 +828,7 @@ function initMusicPlayer(){
           window.__musicControls.play();
           document.removeEventListener('click', tryUnlockAudio);
           document.removeEventListener('touchstart', tryUnlockAudio);
-        }).catch(() => {
-          // Keep waiting for a real click if browser blocks it
-        });
+        }).catch(() => {});
       }
     }
   }
