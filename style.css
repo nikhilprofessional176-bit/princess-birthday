@@ -168,12 +168,14 @@ button{ font-family: inherit; border:none; cursor:pointer; background:none; }
 
 /* ---------------- Wishes Dashboard & Modal (NEW) ---------------- */
 .wishes-dashboard-container{
-  position:relative; z-index:10; width:min(100%, 600px); margin:4rem auto 0;
-  background: rgba(26,16,37,0.7); /* Solid dark background */
-  border:1px solid rgba(212,175,122,.3);
-  border-radius:20px; padding:1.5rem; backdrop-filter:blur(10px);
+  position:relative; z-index:10; width:min(100%, 600px); 
+  /* Fixed Margin for phone */
+  margin: 5rem auto 2rem auto; 
+  background: var(--midnight-2); /* Solid background to prevent text overlapping */
+  border:2px solid rgba(212,175,122,.3); /* Slightly thicker border */
+  border-radius:20px; padding:1.5rem; 
   display:flex; flex-direction:column; align-items:center;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5); /* Shadow added */
+  box-shadow: 0 15px 40px rgba(0,0,0,0.6); /* Strong shadow for depth */
 }
 .dashboard-title { font-family: var(--font-display); color: var(--gold); font-size:1.4rem; margin-bottom:1rem; }
 
@@ -193,7 +195,7 @@ button{ font-family: inherit; border:none; cursor:pointer; background:none; }
 }
 
 .wish-item{
-  background:rgba(255,255,255,0.05); padding:1rem; border-radius:12px;
+  background:rgba(255,255,255,0.08); padding:1rem; border-radius:12px;
   border-left: 3px solid var(--rose);
   opacity: 0;
   transform: translateY(20px);
@@ -252,6 +254,244 @@ button{ font-family: inherit; border:none; cursor:pointer; background:none; }
 .wish-status{ text-align:center; margin-top:1rem; font-size:.85rem; min-height:1.2em; color:var(--blush); }
 
 
+/* ---------------- Reveal lines (Chapter 01, 04, 10) ---------------- */
+.reveal-line{
+  font-family: var(--font-display); font-size: clamp(1.1rem, 3.2vw, 1.7rem);
+  margin-bottom: .9rem; opacity:0; transform: translateY(22px) scale(.98);
+  filter: blur(6px);
+}
+.reveal-line.emphasis{ color: var(--gold-soft); font-style:italic; }
+.reveal-name{
+  font-family: var(--font-script); font-size: clamp(2.6rem, 8vw, 5rem);
+  margin-top:2rem; color: var(--gold); opacity:0; transform: scale(.85);
+  text-shadow: 0 0 30px rgba(212,175,122,.5);
+}
+
+/* ---------------- Portal ---------------- */
+.portal-section{ position:relative; }
+.portal-glow{
+  position:absolute; inset:0; z-index:1;
+  background: radial-gradient(circle at 50% 50%, rgba(232,160,191,.25), transparent 60%);
+  animation: portalPulse 4s ease-in-out infinite;
+}
+@keyframes portalPulse{ 0%,100%{ transform:scale(1); opacity:.7;} 50%{ transform:scale(1.15); opacity:1;} }
+.portal-text{ font-family: var(--font-display); font-size: clamp(1.3rem,3.5vw,2rem); margin-bottom:2.5rem; }
+.portal-btn{
+  position:relative; z-index:5; padding: 1rem 2.2rem; border-radius:50px;
+  background: linear-gradient(120deg, var(--gold), var(--rose));
+  color: var(--text-dark); font-weight:600; font-size:1rem; letter-spacing:.05em;
+  display:inline-flex; align-items:center; gap:.6rem; box-shadow: 0 10px 40px rgba(232,160,191,.35);
+  transition: transform .35s var(--ease), box-shadow .35s var(--ease); justify-content: center;
+}
+.portal-btn:hover{ transform: translateY(-3px) scale(1.03); box-shadow: 0 16px 50px rgba(232,160,191,.5); }
+.portal-btn.small{ padding:.8rem 1.6rem; font-size:.9rem; margin-top:1.5rem; }
+
+/* ---------------- Quiz (Chapter 03) ---------------- */
+.quiz-wrap{ display:flex; flex-direction:column; align-items:center; gap:1.5rem; }
+.quiz-card{
+  background: #fff; border-radius:24px; padding: 2rem; width:min(500px,100%);
+  box-shadow: 0 20px 50px rgba(74,25,66,.12); text-align:center;
+}
+.quiz-question{ font-family: var(--font-display); font-size:1.3rem; margin-bottom:1.3rem; color: var(--burgundy); }
+.quiz-options{ display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; }
+.quiz-btn{
+  padding:.75rem 1.6rem; border-radius:40px; background: var(--blush); color: var(--text-dark);
+  font-weight:600; transition: all .3s var(--ease);
+}
+.quiz-btn:hover{ background: var(--rose); transform: translateY(-2px); }
+.quiz-btn.selected{ background: var(--gold); color:#fff; }
+.quiz-response{ margin-top:1rem; font-size:.95rem; color: var(--burgundy); min-height:1.4em; opacity:0; }
+.quiz-response.show{ opacity:1; }
+.continue-btn{
+  padding:.85rem 1.8rem; border-radius:40px; background: var(--burgundy); color:#fff;
+  font-weight:600; display:inline-flex; gap:.5rem; align-items:center;
+}
+
+/* ---------------- Our Universe (Chapter 04) ---------------- */
+.universe-section{ min-height:130vh; }
+#starCanvas{ position:absolute; inset:0; z-index:1; }
+.heart-constellation{
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-58%);
+  width:min(300px,60vw); z-index:2; opacity:.9; pointer-events:none;
+}
+.heart-constellation path{
+  fill:none; stroke: var(--gold); stroke-width:1.5; stroke-linecap:round;
+}
+.heart-constellation circle{ fill: var(--gold-soft); }
+
+/* ---------------- Line-Connect Match Game (Chapter 05) ---------------- */
+.gallery-section{ padding-bottom:8rem; }
+.game-instruction{
+  font-family: var(--font-script); font-size:1.3rem; color: var(--burgundy);
+  margin-bottom:2rem; opacity:.85;
+}
+.match-game{
+  position:relative; max-width:600px; margin:0 auto;
+  display:flex; justify-content:space-between; gap: 3rem;
+}
+.match-lines{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:2; overflow:visible; }
+.match-lines line{ stroke: var(--heart-blue); stroke-width:2.5; stroke-linecap:round; }
+.match-col{ display:flex; flex-direction:column; gap:1rem; flex:1; z-index:3; position:relative; min-width:0; }
+.match-node{
+  display:flex; align-items:center; gap:.6rem; background:#fff; border-radius:14px;
+  padding:.5rem; box-shadow: 0 10px 24px rgba(74,25,66,.12); cursor:pointer;
+  transition: transform .3s var(--ease), box-shadow .3s var(--ease);
+  opacity:0; transform: translateY(14px) scale(.92);
+}
+.match-node img{ width:52px; height:52px; object-fit:cover; border-radius:10px; flex-shrink:0; }
+.match-node:hover{ transform: translateY(-2px) scale(1.03); }
+.match-node.selected{ box-shadow: 0 0 0 3px var(--heart-blue); }
+.match-node.matched{ box-shadow: 0 0 0 3px var(--heart-blue); opacity:.9; cursor: zoom-in; }
+.match-node.wrong{ animation: shakeX .4s ease; }
+.match-col-right .match-node{ flex-direction: row-reverse; }
+@keyframes shakeX{ 0%,100%{ transform: translateX(0); } 25%{ transform: translateX(-6px); } 75%{ transform: translateX(6px); } }
+.gallery-empty{ font-family: var(--font-display); font-style:italic; color: var(--burgundy); opacity:.6; padding:2rem; }
+
+.love-meter-wrap{ max-width:420px; margin: 2.5rem auto 0; }
+.love-meter-label{ font-family: var(--font-display); color: var(--burgundy); margin-bottom:.6rem; font-size:1rem; }
+.love-meter-track{ height:12px; background: rgba(74,25,66,.1); border-radius:20px; overflow:hidden; }
+.love-meter-fill{
+  height:100%; width:0%; border-radius:20px;
+  background: linear-gradient(90deg, var(--heart-blue-soft), var(--heart-blue));
+  transition: width .5s var(--ease);
+}
+.love-meter-percent{ margin-top:.5rem; font-weight:600; color: var(--burgundy); }
+
+.love-complete{
+  margin: 2.5rem auto 0; max-width:420px;
+}
+.love-complete-percent{
+  font-family: var(--font-display); font-size: clamp(3rem,10vw,5rem); color: var(--heart-blue);
+  text-shadow: 0 0 30px rgba(79,163,247,.4);
+}
+.love-complete-text{ font-family: var(--font-script); font-size:1.4rem; color: var(--burgundy); margin-top:.5rem; }
+
+/* Photo viewer */
+.photo-viewer{
+  position:fixed; inset:0; background: rgba(26,16,37,.94); z-index:1000;
+  display:flex; align-items:center; justify-content:center;
+}
+.photo-viewer img{ max-width:88vw; max-height:82vh; border-radius:10px; box-shadow: 0 30px 80px rgba(0,0,0,.5); }
+.viewer-close{ position:absolute; top:1.5rem; right:1.5rem; color:#fff; font-size:1.6rem; }
+.viewer-nav{ position:absolute; top:50%; transform:translateY(-50%); color:#fff; font-size:1.8rem; padding:1rem; opacity:.8; }
+.viewer-nav:hover{ opacity:1; }
+.viewer-prev{ left:1rem; } .viewer-next{ right:1rem; }
+
+/* ---------------- Letter (Chapter 07) ---------------- */
+.envelope-wrap{ display:flex; flex-direction:column; align-items:center; }
+.envelope{
+  width:260px; height:170px; position:relative; cursor:pointer;
+  filter: drop-shadow(0 15px 30px rgba(74,25,66,.25));
+}
+.envelope-body{
+  position:absolute; inset:0; background: linear-gradient(135deg, var(--blush), var(--rose));
+  border-radius:6px;
+}
+.envelope-flap{
+  position:absolute; top:0; left:0; width:100%; height:100%;
+  clip-path: polygon(0 0, 50% 55%, 100% 0);
+  background: linear-gradient(135deg, var(--rose), var(--burgundy));
+  transform-origin: top center; transition: transform .8s var(--ease);
+  border-radius: 6px 6px 0 0;
+}
+.envelope.open .envelope-flap{ transform: rotateX(180deg); }
+.wax-seal{
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  width:46px; height:46px; border-radius:50%; background: var(--gold);
+  display:flex; align-items:center; justify-content:center; font-size:1.3rem;
+  box-shadow: 0 6px 16px rgba(212,175,122,.5); z-index:3;
+}
+.envelope-hint{ margin-top:1.5rem; font-weight:600; color: var(--burgundy); letter-spacing:.05em; }
+.letter-paper{
+  margin: 2.5rem auto 0; max-width:560px; background: #FFFDF8; border-radius:10px;
+  padding: 2.5rem 2rem; box-shadow: 0 25px 60px rgba(74,25,66,.15);
+  background-image: repeating-linear-gradient(rgba(74,25,66,.03) 0 1px, transparent 1px 32px);
+}
+.letter-text{
+  font-family: var(--font-script); font-size:1.4rem; line-height:2; color: var(--text-dark);
+  white-space: pre-wrap; text-align:left;
+}
+
+/* ---------------- Music room (Chapter 08) ---------------- */
+.music-room-sub{ font-family: var(--font-script); font-size:1.6rem; color: var(--rose); margin-bottom:2rem; }
+.big-vinyl{
+  width:180px; height:180px; border-radius:50%; margin: 0 auto;
+  background: repeating-radial-gradient(circle, #1a1a1a 0 3px, #2b2b2b 3px 6px);
+  display:flex; align-items:center; justify-content:center;
+  box-shadow: 0 20px 50px rgba(0,0,0,.4); animation: spin 6s linear infinite paused;
+}
+.big-vinyl.spinning{ animation-play-state: running; }
+.vinyl-hole{ width:20px; height:20px; border-radius:50%; background: var(--gold); }
+@keyframes spin{ to{ transform: rotate(360deg); } }
+.music-room-track{ margin-top:1.2rem; color: var(--lavender); font-size:.9rem; }
+
+/* ---------------- Vault (Chapter 09) ---------------- */
+.vault-section .reveal-line{ margin-bottom:2rem; }
+.vault{
+  width:120px; height:120px; margin: 0 auto 2rem; border-radius:20px;
+  background: linear-gradient(135deg, var(--burgundy), var(--midnight-2));
+  border: 2px solid var(--gold); display:flex; align-items:center; justify-content:center;
+  font-size:2.2rem; color: var(--gold); box-shadow: 0 0 40px rgba(212,175,122,.2);
+  transition: transform .5s var(--ease);
+}
+.vault.unlocked{ transform: scale(1.08) rotate(-3deg); box-shadow: 0 0 60px rgba(212,175,122,.5); }
+.vault-surprise{
+  margin-top:2.5rem; font-family: var(--font-display); font-size:1.2rem; line-height:1.8;
+  max-width:520px; margin-left:auto; margin-right:auto;
+}
+.vault-surprise .vault-sub{ margin-top:1rem; font-family: var(--font-script); font-size:1.6rem; color: var(--gold); }
+
+/* ---------------- Birthday Wish (Chapter 10) ---------------- */
+.wish-section{ min-height:120vh; }
+.glow-heart{
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  width:320px; height:320px; border-radius:50%; z-index:1;
+  background: radial-gradient(circle, rgba(212,175,122,.35), transparent 70%);
+  filter: blur(10px);
+}
+.wish-title{
+  font-family: var(--font-display); font-size: clamp(1.7rem,5vw,3rem);
+  margin-top:2.5rem; color: var(--gold); text-shadow: 0 0 30px rgba(212,175,122,.5);
+  opacity:0; transform: scale(.9);
+}
+
+/* ---------------- Final scene (Chapter 11) ---------------- */
+.final-section{ min-height:120vh; }
+#fireworksCanvas{ position:absolute; inset:0; z-index:1; }
+.final-title{ font-family: var(--font-display); font-size: clamp(1.8rem,5vw,3.2rem); color: var(--rose); margin-bottom:1rem; }
+.final-sub{ font-family: var(--font-script); font-size:1.6rem; color: var(--gold-soft); margin-bottom:2.5rem; }
+.final-credit{ font-size:.9rem; color: var(--lavender); line-height:1.8; margin-bottom:2rem; }
+.replay-btn{
+  color: var(--gold); border:1px solid var(--gold); padding:.7rem 1.4rem; border-radius:40px;
+  font-size:.85rem; display:inline-flex; gap:.5rem; align-items:center; transition: all .3s ease;
+}
+.replay-btn:hover{ background: var(--gold); color: var(--midnight); }
+.idle-message{
+  margin-top:3rem; font-family: var(--font-script); font-size:1.4rem; color: var(--blush); line-height:2;
+}
+
+/* ---------------- Scroll progress ---------------- */
+.scroll-progress{
+  position:fixed; top:0; left:0; height:3px; width:0%; z-index:900;
+  background: linear-gradient(90deg, var(--gold), var(--rose));
+}
+
+/* ---------------- Stickers ---------------- */
+.sticker-layer{ position:fixed; inset:0; z-index:50; pointer-events:none; }
+.sticker{
+  position:absolute; left:var(--x); top:var(--y); font-size:1.6rem;
+  pointer-events:auto; cursor:pointer; animation: float 5s ease-in-out infinite;
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,.25));
+}
+.sticker:nth-child(odd){ animation-duration:6.5s; }
+.sticker:nth-child(3n){ animation-delay:1s; }
+@keyframes float{ 0%,100%{ transform: translateY(0) rotate(0deg);} 50%{ transform: translateY(-14px) rotate(6deg);} }
+.sticker-tooltip{
+  position:fixed; background: var(--midnight); color:#fff; padding:.6rem 1rem; border-radius:10px;
+  font-size:.85rem; z-index:1001; box-shadow: 0 10px 30px rgba(0,0,0,.3); pointer-events:none;
+  max-width:220px; text-align:center;
+}
+
 /* ---------------- Music player widget ---------------- */
 .music-player{ position:fixed; bottom:1.5rem; right:1.5rem; z-index:200; }
 .music-toggle{
@@ -301,6 +541,11 @@ button{ font-family: inherit; border:none; cursor:pointer; background:none; }
   .memory-game{ grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap:.7rem; }
   .music-panel{ width:210px; }
   .quiz-options{ flex-direction:column; align-items:stretch; }
+  
+  /* Fixes specific to mobile for dashboard and text */
+  .wishes-dashboard-container{
+    margin: 3rem auto 1rem auto;
+  }
 }
 @media (max-width: 480px){
   .sticker{ font-size:1.3rem; }
