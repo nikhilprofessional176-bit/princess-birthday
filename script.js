@@ -22,6 +22,32 @@ I love you meri jaan, aaj bhi, kal bhi, hamesha. ❤️♾️`;
 ------------------------------------------------- */
 const landingPhotoNumber = 4;
 
+/* =====================================================
+   🔥 FIREBASE CONFIGURATION (WISHES DASHBOARD) 🔥
+===================================================== */
+const firebaseConfig = {
+  apiKey: "AIzaSyCE0L8W6NGh2CoGqMMuaJ49sZQVOnvRwdU",
+  authDomain: "princess-bday.firebaseapp.com",
+  databaseURL: "https://princess-bday-default-rtdb.firebaseio.com",
+  projectId: "princess-bday",
+  storageBucket: "princess-bday.firebasestorage.app",
+  messagingSenderId: "508739086718",
+  appId: "1:508739086718:web:6dd7ca9a79b605da79ab2f",
+  measurementId: "G-DE9TDGCHYD"
+};
+
+// Initialize Firebase (Using v8 Compat CDN syntax that we have in index.html)
+let database = null;
+try {
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  }
+  database = firebase.database();
+  console.log("Firebase Database Connected Successfully!");
+} catch (error) {
+  console.error("Firebase Initialization Error:", error);
+}
+
 /* -------------------------------------------------
    GLOBAL STATE
 ------------------------------------------------- */
@@ -61,6 +87,7 @@ function runLoadingSequence(){
 ===================================================== */
 function initExperience(){
   initLandingPhoto();
+  initWishesDashboard(); // New Dashboard Init
   initScrollReveals();
   initScrollProgress();
   initCursorGlow();
@@ -77,6 +104,125 @@ function initExperience(){
   initFinalScene();
   initReplay();
 }
+
+
+/* =====================================================
+   NEW: WISHES DASHBOARD & MODAL
+===================================================== */
+function initWishesDashboard() {
+  const modal = document.getElementById('wishModal');
+  const openBtn = document.getElementById('openWishModalBtn');
+  const closeBtn = document.getElementById('closeWishModalBtn');
+  const submitBtn = document.getElementById('submitWishBtn');
+  const statusEl = document.getElementById('wishStatus');
+  const track = document.getElementById('wishesTrack');
+  const displayArea = document.getElementById('wishesDisplayArea');
+
+  // Modal handlers
+  openBtn.addEventListener('click', () => { modal.classList.remove('hidden'); });
+  closeBtn.addEventListener('click', () => { modal.classList.add('hidden'); statusEl.textContent = ""; });
+  
+  // Close when clicking outside
+  modal.addEventListener('click', (e) => {
+    if(e.target === modal) { modal.classList.add('hidden'); statusEl.textContent = ""; }
+  });
+
+  // Submit wish
+  submitBtn.addEventListener('click', () => {
+    const name = document.getElementById('wishName').value.trim();
+    const message = document.getElementById('wishMessage').value.trim();
+    const giftType = document.querySelector('input[name="giftType"]:checked').value;
+
+    if(!name || !message) {
+      statusEl.textContent = "Please write your name and a message! 💙";
+      statusEl.style.color = "var(--rose)";
+      return;
+    }
+
+    if(database) {
+      statusEl.textContent = "Sending your wish... ✨";
+      statusEl.style.color = "var(--gold)";
+      
+      const wishesRef = database.ref('wishes');
+      wishesRef.push({
+        name: name,
+        message: message,
+        gift: giftType,
+        timestamp: firebase.database.ServerValue.TIMESTAMP
+      }).then(() => {
+        statusEl.textContent = "Wish sent successfully! 🎉";
+        statusEl.style.color = "lightgreen";
+        document.getElementById('wishName').value = "";
+        document.getElementById('wishMessage').value = "";
+        setTimeout(() => modal.classList.add('hidden'), 2000);
+      }).catch((error) => {
+        statusEl.textContent = "Oops! Something went wrong.";
+        statusEl.style.color = "red";
+      });
+    } else {
+      statusEl.textContent = "Database not connected.";
+      statusEl.style.color = "red";
+    }
+  });
+
+  // Real-time listener for wishes
+  if(database) {
+    const wishesRef = database.ref('wishes');
+    wishesRef.on('value', (snapshot) => {
+      track.innerHTML = ""; // clear track
+      const data = snapshot.val();
+      
+      if(data) {
+        // Convert object to array and sort by oldest first
+        const wishesArray = Object.values(data).sort((a,b) => a.timestamp - b.timestamp);
+        
+        wishesArray.forEach(wish => {
+          const item = document.createElement('div');
+          item.className = 'wish-item';
+          item.innerHTML = `
+            <div class="wish-header">
+              <span class="wish-name">${wish.name}</span>
+              <span class="wish-gift">${wish.gift}</span>
+            </div>
+            <p class="wish-msg">"${wish.message}"</p>
+          `;
+          track.appendChild(item);
+        });
+
+        // Setup the continuous scroll animation if there are wishes
+        startScrollAnimation();
+      } else {
+        track.innerHTML = "<p class='loading-wishes'>Be the first to send a wish! ✨</p>";
+      }
+    });
+  } else {
+    track.innerHTML = "<p class='loading-wishes' style='color:red;'>Firebase setup required to load wishes.</p>";
+  }
+
+  let scrollInterval;
+  function startScrollAnimation() {
+    clearInterval(scrollInterval);
+    let offset = 0;
+    const trackHeight = track.scrollHeight;
+    const areaHeight = displayArea.clientHeight;
+
+    // Reset position
+    track.style.bottom = 'auto';
+    track.style.top = `${areaHeight}px`;
+
+    scrollInterval = setInterval(() => {
+      offset -= 0.5; // Scroll speed
+      
+      // If it has scrolled completely out of view at the top
+      if (Math.abs(offset) > trackHeight) {
+        offset = areaHeight; // Reset to start from bottom again
+      }
+      track.style.transform = `translateY(${offset}px)`;
+    }, 20); // 50fps
+  }
+}
+
+
 
 /* =====================================================
    2b. LANDING PAGE PHOTO (right side of Chapter 01)
